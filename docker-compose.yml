@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio-data:/data
+    networks:
+      - worker-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  collaborative-worker:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      WORKSPACE_DIR: /workspace
+      COOLDOWN_MS: 300000
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_BUCKET: sessions
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      NODE_ENV: development
+    volumes:
+      - ./src:/app/src
+      - workspace-data:/workspace
+    networks:
+      - worker-network
+    depends_on:
+      - minio
+
+networks:
+  worker-network:
+    driver: bridge
+
+volumes:
+  minio-data:
+  workspace-data:

@@ -1,0 +1,37 @@
+{
+  "name": "collaborative-session-worker",
+  "version": "1.0.0",
+  "description": "WebSocket-based collaborative session worker with MinIO persistence and auto-commit functionality",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
+  },
+  "keywords": [
+    "websocket",
+    "collaboration",
+    "crdt",
+    "minio",
+    "docker-swarm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.18.0",
+    "minio": "^8.0.2",
+    "tar": "^7.4.3",
+    "uuid": "^10.0.0",
+    "simple-git": "^3.27.0",
+    "yjs": "^13.6.19",
+    "lib0": "^0.2.98"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.11",
+    "@types/ws": "^8.5.12",
+    "@types/tar": "^6.1.13",
+    "typescript": "^5.6.3",
+    "ts-node": "^10.9.2",
+    "dotenv": "^16.4.5"
+  }
+}
