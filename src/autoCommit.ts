@@ -119,7 +119,7 @@ export class AutoCommit {
 
     try {
       const log = await this.git.log({ maxCount: limit });
-      return log.all;
+      return [...log.all];
     } catch (error) {
       console.error('Failed to get commits:', error);
       return [];
