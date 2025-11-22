@@ -1,45 +1,21 @@
 version: '3.8'
 
 services:
-  minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9001"
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    volumes:
-      - minio-data:/data
-    networks:
-      - worker-network
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-
   collaborative-worker:
     image: dockerregistry.etdofresh.com/collaborative-session-worker:latest
     environment:
       PORT: 8080
       WORKSPACE_DIR: /workspace
       COOLDOWN_MS: 300000
-      MINIO_ENDPOINT: minio
-      MINIO_PORT: 9000
-      MINIO_BUCKET: sessions
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
-    ports:
-      - "8080:8080"
+      # MinIO disabled for now - running in local-only mode
+      # MINIO_ENDPOINT: minio
+      # MINIO_PORT: 9000
+      # MINIO_BUCKET: sessions
+      # MINIO_ACCESS_KEY: minioadmin
+      # MINIO_SECRET_KEY: minioadmin
+    # Port mapping removed - access via reverse proxy only
+    # ports:
+    #   - "8080:8080"
     networks:
       - worker-network
     deploy:
@@ -67,6 +43,3 @@ services:
 networks:
   worker-network:
     driver: overlay
-
-volumes:
-  minio-data:
