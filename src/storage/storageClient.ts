@@ -35,7 +35,7 @@ export class StorageClient {
       return;
     }
 
-    this.baseUrl = storageUrl.replace(/\/$/, '');
+    this.baseUrl = storageUrl!.replace(/\/$/, '');
     this.timeout = parseInt(process.env.STORAGE_WORKER_TIMEOUT || '60000', 10);
 
     console.log(`Storage worker client initialized: ${this.baseUrl}`);

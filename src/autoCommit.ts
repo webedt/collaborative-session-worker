@@ -1,17 +1,17 @@
 import simpleGit, { SimpleGit, CheckRepoActions } from 'simple-git';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SessionStorage } from './storage/sessionStorage';
+import { StorageClient } from './storage/storageClient';
 
 export class AutoCommit {
-  private sessionStorage: SessionStorage;
+  private sessionStorage: StorageClient;
   private sessionId: string;
   private git: SimpleGit;
   private cooldownMs: number;
   private commitTimeout: NodeJS.Timeout | null = null;
   private isGitRepo: boolean = false;
 
-  constructor(sessionId: string, sessionStorage: SessionStorage, cooldownMs: number = 300000) {
+  constructor(sessionId: string, sessionStorage: StorageClient, cooldownMs: number = 300000) {
     this.sessionId = sessionId;
     this.sessionStorage = sessionStorage;
     this.cooldownMs = cooldownMs;

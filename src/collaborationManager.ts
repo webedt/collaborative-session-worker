@@ -1,7 +1,7 @@
 import * as Y from 'yjs';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SessionStorage } from './storage/sessionStorage';
+import { StorageClient } from './storage/storageClient';
 
 interface FileOperation {
   type: 'create' | 'update' | 'delete' | 'rename';
@@ -15,12 +15,12 @@ interface FileOperation {
 
 export class CollaborationManager {
   private docs: Map<string, Y.Doc> = new Map();
-  private sessionStorage: SessionStorage;
+  private sessionStorage: StorageClient;
   private sessionId: string;
   private lastActivityTime: number = Date.now();
   private activityTimeouts: Map<string, NodeJS.Timeout> = new Map();
 
-  constructor(sessionId: string, sessionStorage: SessionStorage) {
+  constructor(sessionId: string, sessionStorage: StorageClient) {
     this.sessionId = sessionId;
     this.sessionStorage = sessionStorage;
   }
