@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { SessionStorage } from './storage/sessionStorage';
+import { StorageClient } from './storage/storageClient';
 import { CollaborationManager } from './collaborationManager';
 import { AutoCommit } from './autoCommit';
 import * as os from 'os';
@@ -26,7 +26,7 @@ interface Message {
 
 class CollaborativeSessionServer {
   private wss: WebSocket.Server;
-  private sessionStorage: SessionStorage;
+  private sessionStorage: StorageClient;
   private sessions: Map<string, {
     manager: CollaborationManager;
     autoCommit: AutoCommit;
@@ -35,7 +35,7 @@ class CollaborativeSessionServer {
   private cleanupInterval: NodeJS.Timeout;
 
   constructor() {
-    this.sessionStorage = new SessionStorage(WORKSPACE_DIR);
+    this.sessionStorage = new StorageClient(WORKSPACE_DIR);
     this.wss = new WebSocket.Server({ port: PORT });
 
     this.wss.on('connection', this.handleConnection.bind(this));
