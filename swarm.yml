@@ -7,17 +7,18 @@ services:
       PORT: 8080
       WORKSPACE_DIR: /workspace
       COOLDOWN_MS: 300000
-      # MinIO disabled for now - running in local-only mode
-      # MINIO_ENDPOINT: minio
-      # MINIO_PORT: 9000
-      # MINIO_BUCKET: sessions
-      # MINIO_ACCESS_KEY: minioadmin
-      # MINIO_SECRET_KEY: minioadmin
+      # Using shared MinIO from AI coding workers stack
+      MINIO_ENDPOINT: webedt-app-ai-coding-workers-gy4wew_minio
+      MINIO_PORT: 9000
+      MINIO_BUCKET: sessions
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
     # Port mapping removed - access via reverse proxy only
     # ports:
     #   - "8080:8080"
     networks:
       - worker-network
+      - ai-worker-network
     deploy:
       replicas: 10
       update_config:
@@ -40,3 +41,6 @@ services:
 networks:
   worker-network:
     driver: overlay
+  ai-worker-network:
+    external: true
+    name: webedt-app-ai-coding-workers-gy4wew_worker-network
