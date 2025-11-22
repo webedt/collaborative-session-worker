@@ -19,13 +19,13 @@ services:
     networks:
       - worker-network
     deploy:
-      replicas: 5
+      replicas: 2
       update_config:
-        parallelism: 2
+        parallelism: 1
         delay: 10s
         failure_action: rollback
       rollback_config:
-        parallelism: 2
+        parallelism: 1
         delay: 10s
       restart_policy:
         condition: any
@@ -34,11 +34,8 @@ services:
         window: 120s
       resources:
         limits:
-          cpus: '2.0'
-          memory: 4G
-        reservations:
-          cpus: '1.0'
-          memory: 2G
+          cpus: '0.5'
+          memory: 512M
 
 networks:
   worker-network:
