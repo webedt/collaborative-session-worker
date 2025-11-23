@@ -1,3 +1,11 @@
+# ⚠️ Repository Moved
+
+**This repository has been moved to the [WebEDT Monorepo](https://github.com/webedt/monorepo).**
+
+Please update your bookmarks and references. Future development will continue in the monorepo.
+
+---
+
 # Collaborative Session Worker
 
 A scalable WebSocket-based collaborative coding session worker with MinIO persistence, CRDT synchronization, and auto-commit functionality.
